@@ -56,13 +56,28 @@ void printarray(int **a, int N, int k) {
   printf("\n");
 }
 
-int compute(int **life, int **temp, int N, int NTHREADS) {
+int compute(int **life, int **temp, int N, int P, int Q) {
     int i, j, value, flag = 0;
 
     // Parallel region with OpenMP
-    #pragma omp parallel for default(none) shared(life, temp, N) private(i, j, value) reduction(+:flag) num_threads(NTHREADS)
-    for (i = 1; i < N+1; i++) {
-        for (j = 1; j < N+1; j++) {
+    #pragma omp parallel default(none) shared(life, temp, N, P, Q, flag) private(i, j, value) num_threads(P * Q)
+    {
+      int tid = omp_get_thread_num();
+      int p = tid / Q;
+      int q = tid % Q;
+              // Calculate row range for this thread
+      int myM = N / P;
+      int istart = p * myM ;
+      int iend = istart + myM ;
+      //int iend = (p == P - 1) ? N-1 : istart + myM - 1;
+      if (p == P-1) iend = N ;
+      int myN = N / Q;
+      int jstart = q * myN ;
+      int jend = jstart + myN ;
+      if (q == Q-1) jend = N ;
+      //int jend = (q == Q - 1) ? N-1 : jstart + myN - 1;
+    for (i = istart + 1; i <= iend  ; i++) {
+        for (j = jstart + 1; j <= jend ; j++) {
             // Calculate the sum of the 8 surrounding cells
             value = life[i-1][j-1] + life[i-1][j] + life[i-1][j+1]
                   + life[i][j-1]                + life[i][j+1]
@@ -89,28 +104,35 @@ int compute(int **life, int **temp, int N, int NTHREADS) {
             }
         }
     }
+  }
 
-    return flag; // Return the number of state changes
+
+  return flag; // Return the number of state changes
+
 }
 
 
 int main(int argc, char **argv) {
-  int N, NTIMES, NTHREADS, **life=NULL, **temp=NULL, **ptr ;
+  int N, NTIMES, **life=NULL, **temp=NULL, **ptr ;
   int i, j, k, flag=1;
+  
   
   double t1, t2;
   char output_filepath[256];
     // Check for four command-line arguments
-  if (argc != 5) {
-        printf("Usage: %s <size> <max_iterations> <num_threads> <output_directory>\n", argv[0]);
+  int P ;
+  int Q ;
+  if (argc != 6) {
+        printf("Usage: %s <size> <max_iterations> <P> <Q> <output_directory>\n", argv[0]);
         exit(-1);
   }
 
     // Parse command-line arguments
   N = atoi(argv[1]);
   NTIMES = atoi(argv[2]);
-  NTHREADS = atoi(argv[3]);
-  snprintf(output_filepath, sizeof(output_filepath), "%s/final_state.txt", argv[4]);
+  P = atoi(argv[3]);
+  Q = atoi(argv[4]);
+  snprintf(output_filepath, sizeof(output_filepath), "%s/final_state.txt", argv[5]);
   /* Allocate memory for both arrays */
   life = allocarray(N+2,N+2);
   temp = allocarray(N+2,N+2);
@@ -143,7 +165,7 @@ int main(int argc, char **argv) {
   /* Play the game of life for given number of iterations */
   for (k = 0; k < NTIMES && flag != 0; k++) {
     flag = 0;
-    flag = compute(life, temp, N, NTHREADS);
+    flag = compute(life, temp, N, P, Q);
 
     /* copy the new values to the old array */
     ptr = life;
