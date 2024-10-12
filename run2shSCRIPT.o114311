@@ -1,0 +1,24 @@
+setting asax scratch directory
+ 
+============================================================
+=====         Summary of your script job               =====
+============================================================
+  The script file is: run2.sh
+  The time limit is 60:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsd0198/WorkDIR/Fall2024_CS581_HW3
+  The working directory is:  /scratch-local/ualclsd0198.run2shSCRIPT.114311.asax-pbs1
+  The memory limit is: 1gb
+  The job will start running after: 202410101654.50
+  Job Name: run2shSCRIPT
+  Queue: -q small
+  Constraints: 
+  Using  1  cores on master node  asax003.asc.edu
+  Node list:  asax003.asc.edu
+  Cores:  1
+  Command typed:
+/scripts/run_script run2.sh     
+  Queue submit command:
+qsub -q small -j oe -N run2shSCRIPT -a 202410101654.50 -r n -M atakallou@crimson.ua.edu -l walltime=60:00:00 -l select=ncpus=1:mem=1000mb 
+Time taken 298.464310 seconds for 5000 iterations
+Program terminates normally
+Final board state saved to /scratch/ualclsd0198/final_state.txt

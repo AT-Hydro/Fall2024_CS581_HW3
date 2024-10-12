@@ -1,0 +1,18 @@
+ 
+============================================================
+=====     Queued job information at submit time        =====
+============================================================
+  The submitted file is: run8.sh
+  The time limit is 360:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsd0198/WorkDIR/Fall2024_CS581_HW3
+  The memory limit is: 20gb
+  The job will start running after: 202410120908.10
+  Job Name: run8shSCRIPT
+  Queue: -q large
+  Constraints: 
+  Command typed:
+/scripts/run_script run8.sh     
+  Queue submit command:
+qsub -q large -j oe -N run8shSCRIPT -a 202410120908.10 -r n -M atakallou@crimson.ua.edu -l walltime=360:00:00 -l select=ncpus=20:mpiprocs=20:mem=20000mb 
+  Job number: 114973
+ 

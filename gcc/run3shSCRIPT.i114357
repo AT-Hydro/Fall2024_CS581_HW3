@@ -1,0 +1,18 @@
+ 
+============================================================
+=====     Queued job information at submit time        =====
+============================================================
+  The submitted file is: run3.sh
+  The time limit is 60:00:00 HH:MM:SS.
+  The target directory is: /home/ualclsd0198/WorkDIR/Fall2024_CS581_HW3/gcc
+  The memory limit is: 2gb
+  The job will start running after: 202410101817.10
+  Job Name: run3shSCRIPT
+  Queue: -q small
+  Constraints: 
+  Command typed:
+/scripts/run_script run3.sh     
+  Queue submit command:
+qsub -q small -j oe -N run3shSCRIPT -a 202410101817.10 -r n -M atakallou@crimson.ua.edu -l walltime=60:00:00 -l select=ncpus=2:mpiprocs=2:mem=2000mb 
+  Job number: 114357
+ 
