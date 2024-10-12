@@ -8,6 +8,7 @@ Instructions to run the program: .\parallelLife.exe <Size> <maxmium number of Ge
 
    Use -DDEBUG1 for output at the start and end.
    Use -DDEBUG2 for output at each iteration.
+   Compiler flags -O3
 */
 
 #include <stdlib.h>

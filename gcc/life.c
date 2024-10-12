@@ -7,6 +7,7 @@ Instructions to compile the program: gcc -Wall -O life.c -o life.exe
 Instructions to run the program: .\life.exe <Size> <maxmium number of Generations> <Output Directory>
 Use -DDEBUG1 for output at the start and end.
 Use -DDEBUG2 for output at each iteration.
+Compiler flags -O3
 */
 
 #include <stdlib.h>
